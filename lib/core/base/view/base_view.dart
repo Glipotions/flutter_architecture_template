@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 
 class BaseView<T extends Store> extends StatefulWidget {
-  final Widget Function(BuildContext context, T Value) onPageBuilder;
+  final Widget Function(BuildContext context, T value) onPageBuilder;
   final T viewModel;
   final Function(T model) onModelReady;
   final VoidCallback? onDispose;
@@ -16,6 +16,7 @@ class BaseView<T extends Store> extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _BaseViewState<T> createState() => _BaseViewState<T>();
 }
 

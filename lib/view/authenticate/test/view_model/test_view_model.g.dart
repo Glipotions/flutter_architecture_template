@@ -9,6 +9,29 @@ part of 'test_view_model.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TestViewModel on _TestViewModelBase, Store {
+  Computed<bool>? _$isEvenComputed;
+
+  @override
+  bool get isEven => (_$isEvenComputed ??=
+          Computed<bool>(() => super.isEven, name: '_TestViewModelBase.isEven'))
+      .value;
+
+  late final _$isLoadingAtom =
+      Atom(name: '_TestViewModelBase.isLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
+    });
+  }
+
   late final _$numberAtom =
       Atom(name: '_TestViewModelBase.number', context: context);
 
@@ -25,15 +48,23 @@ mixin _$TestViewModel on _TestViewModelBase, Store {
     });
   }
 
+  late final _$getSampleRequestAsyncAction =
+      AsyncAction('_TestViewModelBase.getSampleRequest', context: context);
+
+  @override
+  Future<void> getSampleRequest() {
+    return _$getSampleRequestAsyncAction.run(() => super.getSampleRequest());
+  }
+
   late final _$_TestViewModelBaseActionController =
       ActionController(name: '_TestViewModelBase', context: context);
 
   @override
-  void incrementModel() {
+  void incrementNumber() {
     final _$actionInfo = _$_TestViewModelBaseActionController.startAction(
-        name: '_TestViewModelBase.incrementModel');
+        name: '_TestViewModelBase.incrementNumber');
     try {
-      return super.incrementModel();
+      return super.incrementNumber();
     } finally {
       _$_TestViewModelBaseActionController.endAction(_$actionInfo);
     }
@@ -42,7 +73,9 @@ mixin _$TestViewModel on _TestViewModelBase, Store {
   @override
   String toString() {
     return '''
-number: ${number}
+isLoading: ${isLoading},
+number: ${number},
+isEven: ${isEven}
     ''';
   }
 }

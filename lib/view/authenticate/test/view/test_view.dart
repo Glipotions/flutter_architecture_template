@@ -1,5 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_architecture_template/core/constants/enums/locale_keys_enum.dart';
+import 'package:flutter_architecture_template/core/extension/string_extension.dart';
+import 'package:flutter_architecture_template/core/init/cache/locale_manager.dart';
 import 'package:flutter_architecture_template/core/init/lang/locale_keys.g.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_architecture_template/core/base/view/base_view.dart';
@@ -26,7 +28,18 @@ class _TestViewState extends State<TestView> {
   }
 
   Widget get scaffoldBody => Scaffold(
-        appBar: AppBar(title: const Text(LocaleKeys.welcome).tr()),
+        appBar: AppBar(
+          title: Text(LocaleKeys.welcome.locale),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  // context.locale = LanguageManager.instance.enLocale();
+                },
+                icon: const Icon(Icons.change_history))
+          ],
+          leading: Text(
+              LocaleManager.instance.getStringValue(PreferencesKeys.TOKEN)),
+        ),
         floatingActionButton: floatingActionBtnIncrementModel,
         body: textNumber,
       );
@@ -36,5 +49,5 @@ class _TestViewState extends State<TestView> {
   }
 
   FloatingActionButton get floatingActionBtnIncrementModel =>
-      FloatingActionButton(onPressed: () => viewModel.incrementModel());
+      FloatingActionButton(onPressed: () => viewModel.incrementNumber());
 }

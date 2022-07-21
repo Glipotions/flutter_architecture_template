@@ -34,7 +34,7 @@ class NavigationRoute {
 
       default:
         return MaterialPageRoute(
-          builder: (context) => NotFoundNavigationWidget(),
+          builder: (context) => const NotFoundNavigationWidget(),
         );
     }
   }
